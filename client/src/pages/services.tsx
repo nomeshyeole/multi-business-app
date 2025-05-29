@@ -12,7 +12,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Premium sports turf facility",
       icon: <Dumbbell />,
-      badge: "Premium Facility"
+      badge: "Premium Facility",
+      slug: "sports-turf"
     },
     {
       title: "Smart Mall",
@@ -20,7 +21,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Modern smart shopping mall interior",
       icon: <ShoppingCart />,
-      badge: "Smart Shopping"
+      badge: "Smart Shopping",
+      slug: "smart-mall"
     },
     {
       title: "Swimming Pool",
@@ -28,7 +30,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Clean swimming pool facility",
       icon: <Waves />,
-      badge: "Aquatic Excellence"
+      badge: "Aquatic Excellence",
+      slug: "swimming-pool"
     },
     {
       title: "Fruit Shop",
@@ -36,7 +39,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Fresh fruit shop display",
       icon: <Apple />,
-      badge: "Farm Fresh"
+      badge: "Farm Fresh",
+      slug: "fruit-shop"
     },
     {
       title: "Kiran Pan Center",
@@ -44,7 +48,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Traditional pan shop with betel leaves",
       icon: <Leaf />,
-      badge: "Traditional Taste"
+      badge: "Traditional Taste",
+      slug: "kiran-pan-center"
     },
     {
       title: "Restaurant & Catering",
@@ -52,7 +57,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Professional restaurant dining area",
       icon: <Utensils />,
-      badge: "Culinary Excellence"
+      badge: "Culinary Excellence",
+      slug: "restaurant-catering"
     },
     {
       title: "Event Management",
@@ -60,7 +66,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Professional event management setup",
       icon: <Calendar />,
-      badge: "Perfect Events"
+      badge: "Perfect Events",
+      slug: "event-management"
     },
     {
       title: "Digital Services",
@@ -68,7 +75,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Modern digital workspace and computers",
       icon: <Laptop />,
-      badge: "Digital Solutions"
+      badge: "Digital Solutions",
+      slug: "digital-services"
     },
     {
       title: "Logistics & Transport",
@@ -76,7 +84,8 @@ export default function Services() {
       imageUrl: "https://images.unsplash.com/photo-1553413077-190dd305871c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
       imageAlt: "Professional transportation and logistics",
       icon: <Truck />,
-      badge: "Reliable Transport"
+      badge: "Reliable Transport",
+      slug: "logistics-transport"
     }
   ];
 
@@ -105,6 +114,7 @@ export default function Services() {
               imageAlt={service.imageAlt}
               icon={service.icon}
               badge={service.badge}
+              slug={service.slug}
             />
           ))}
         </div>
