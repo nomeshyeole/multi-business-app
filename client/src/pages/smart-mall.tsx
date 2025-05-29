@@ -2,33 +2,109 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, ShoppingBag, Clock, MapPin, Phone, Mail, CheckCircle, Star, Wifi, Car } from "lucide-react";
+import ServiceCard from "@/components/service-card";
+import { ArrowLeft, ShoppingBag, Clock, MapPin, Phone, Mail, CheckCircle, Star, Wifi, Car, Shirt, Smartphone, Laptop, Home, Sparkles, Gem, Gamepad2, Baby, Dumbbell } from "lucide-react";
 
 export default function SmartMall() {
-  const stores = [
+  const services = [
     {
-      category: "Fashion & Apparel",
-      shops: [
-        { name: "Fashion Hub", type: "Multi-brand clothing", area: "2,500 sq ft", rent: "₹1,20,000/month" },
-        { name: "Shoe Palace", type: "Footwear store", area: "1,200 sq ft", rent: "₹65,000/month" },
-        { name: "Accessory Zone", type: "Bags & accessories", area: "800 sq ft", rent: "₹45,000/month" }
-      ]
+      title: "Clothing",
+      description: "Premium fashion brands, traditional wear, casual clothing, formal attire, and designer collections.",
+      imageUrl: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Fashion clothing store",
+      icon: <Shirt />,
+      badge: "Fashion Hub",
+      slug: "clothing"
     },
     {
-      category: "Electronics & Technology",
-      shops: [
-        { name: "Tech World", type: "Mobile & gadgets", area: "1,800 sq ft", rent: "₹95,000/month" },
-        { name: "Gaming Arena", type: "Gaming zone", area: "3,000 sq ft", rent: "₹1,50,000/month" },
-        { name: "Smart Home", type: "Home automation", area: "1,500 sq ft", rent: "₹80,000/month" }
-      ]
+      title: "Footwear Store",
+      description: "Branded shoes, sports footwear, formal shoes, sandals, and premium leather collections.",
+      imageUrl: "https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Footwear store display",
+      icon: <ShoppingBag />,
+      badge: "Shoe Palace",
+      slug: "footwear"
     },
     {
-      category: "Food & Dining",
-      shops: [
-        { name: "Food Court", type: "Multi-cuisine dining", area: "5,000 sq ft", rent: "₹2,00,000/month" },
-        { name: "Coffee Corner", type: "Cafe & beverages", area: "600 sq ft", rent: "₹35,000/month" },
-        { name: "Ice Cream Parlor", type: "Desserts & treats", area: "400 sq ft", rent: "₹25,000/month" }
-      ]
+      title: "Mobile Services",
+      description: "Latest smartphones, mobile accessories, repair services, and mobile network solutions.",
+      imageUrl: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Mobile phone store",
+      icon: <Smartphone />,
+      badge: "Tech Hub",
+      slug: "mobile-services"
+    },
+    {
+      title: "Electronics",
+      description: "Latest gadgets, laptops, tablets, cameras, audio systems, and consumer electronics.",
+      imageUrl: "https://images.unsplash.com/photo-1498049794561-7780e7231661?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Electronics store",
+      icon: <Laptop />,
+      badge: "Electronics World",
+      slug: "electronics"
+    },
+    {
+      title: "Smart Home Devices",
+      description: "Home automation, IoT devices, smart lighting, security systems, and connected appliances.",
+      imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Smart home devices",
+      icon: <Home />,
+      badge: "Smart Living",
+      slug: "smart-home"
+    },
+    {
+      title: "Cosmetic & Skincare Brands",
+      description: "Premium beauty products, skincare essentials, makeup brands, and personal care items.",
+      imageUrl: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Cosmetics and skincare store",
+      icon: <Sparkles />,
+      badge: "Beauty Zone",
+      slug: "cosmetics"
+    },
+    {
+      title: "Fashion",
+      description: "Trendy outfits, designer wear, seasonal collections, and fashion accessories.",
+      imageUrl: "https://images.unsplash.com/photo-1445205170230-053b83016050?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Fashion boutique",
+      icon: <Sparkles />,
+      badge: "Style Studio",
+      slug: "fashion"
+    },
+    {
+      title: "Jewelry",
+      description: "Gold ornaments, silver jewelry, diamond collections, traditional designs, and precious stones.",
+      imageUrl: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Jewelry store display",
+      icon: <Gem />,
+      badge: "Jewel Palace",
+      slug: "jewelry"
+    },
+    {
+      title: "Gaming Zones",
+      description: "Video games, gaming consoles, VR experiences, arcade games, and competitive gaming setups.",
+      imageUrl: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Gaming zone with consoles",
+      icon: <Gamepad2 />,
+      badge: "Game Arena",
+      slug: "gaming"
+    },
+    {
+      title: "Kids Zones",
+      description: "Children's play areas, toy stores, educational games, kids' clothing, and family entertainment.",
+      imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Kids play zone",
+      icon: <Baby />,
+      badge: "Kids World",
+      slug: "kids-zone"
+    },
+    {
+      title: "Fitness",
+      description: "Gym equipment, fitness accessories, sportswear, nutrition supplements, and wellness products.",
+      imageUrl: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",
+      imageAlt: "Fitness equipment store",
+      icon: <Dumbbell />,
+      badge: "Fitness Hub",
+      slug: "fitness"
     }
   ];
 
@@ -94,70 +170,25 @@ export default function SmartMall() {
           </div>
         </div>
 
+        {/* Services Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {services.map((service, index) => (
+            <ServiceCard
+              key={index}
+              title={service.title}
+              description={service.description}
+              imageUrl={service.imageUrl}
+              imageAlt={service.imageAlt}
+              icon={service.icon}
+              badge={service.badge}
+              slug={service.slug}
+            />
+          ))}
+        </div>
+
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            {/* Rental Packages */}
-            <Card className="mb-8">
-              <CardHeader>
-                <CardTitle className="text-2xl text-secondary">Rental Packages</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid md:grid-cols-3 gap-6">
-                  {packages.map((pkg, index) => (
-                    <Card key={index} className="border border-gray-200">
-                      <CardContent className="p-4 text-center">
-                        <h3 className="font-semibold text-lg text-secondary mb-2">{pkg.name}</h3>
-                        <div className="mb-4">
-                          <p className="text-3xl font-bold text-primary">{pkg.price}</p>
-                          <p className="text-sm text-gray-600">{pkg.duration}</p>
-                        </div>
-                        <div className="space-y-2">
-                          {pkg.features.map((feature, idx) => (
-                            <div key={idx} className="flex items-center text-sm text-gray-600">
-                              <CheckCircle className="mr-2 h-3 w-3 text-green-500" />
-                              <span>{feature}</span>
-                            </div>
-                          ))}
-                        </div>
-                        <Button className="w-full mt-4 bg-primary hover:bg-blue-700">
-                          Inquire Now
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Available Stores */}
-            {stores.map((category, categoryIndex) => (
-              <Card key={categoryIndex} className="mb-8">
-                <CardHeader>
-                  <CardTitle className="text-2xl text-secondary">{category.category}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {category.shops.map((shop, index) => (
-                      <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                        <div className="flex items-center">
-                          <ShoppingBag className="mr-3 h-5 w-5 text-primary" />
-                          <div>
-                            <p className="font-semibold text-secondary">{shop.name}</p>
-                            <p className="text-sm text-gray-600">{shop.type} - {shop.area}</p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <Badge variant="outline" className="text-accent border-accent mb-1">{shop.rent}</Badge>
-                          <p className="text-xs text-gray-500">Monthly rent</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-
             {/* Amenities */}
             <Card>
               <CardHeader>

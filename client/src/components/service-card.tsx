@@ -13,8 +13,12 @@ interface ServiceCardProps {
 }
 
 export default function ServiceCard({ title, description, imageUrl, imageAlt, icon, badge, slug }: ServiceCardProps) {
+  // Check if we're in smart mall context to build correct URL
+  const isSmartMallCategory = window.location.pathname === '/services/smart-mall';
+  const linkUrl = isSmartMallCategory ? `/smart-mall/${slug}` : `/services/${slug}`;
+  
   return (
-    <Link href={`/services/${slug}`}>
+    <Link href={linkUrl}>
       <Card className="service-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer">
         <img 
           src={imageUrl} 

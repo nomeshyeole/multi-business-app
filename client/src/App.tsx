@@ -10,6 +10,9 @@ import FruitShop from "@/pages/fruit-shop";
 import SwimmingPool from "@/pages/swimming-pool";
 import SmartMall from "@/pages/smart-mall";
 import KiranPanCenter from "@/pages/kiran-pan-center";
+import Clothing from "@/pages/clothing";
+import MobileServices from "@/pages/mobile-services";
+import Gaming from "@/pages/gaming";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import NotFound from "@/pages/not-found";
@@ -24,6 +27,9 @@ function Router() {
       <Route path="/services/swimming-pool" component={SwimmingPool} />
       <Route path="/services/smart-mall" component={SmartMall} />
       <Route path="/services/kiran-pan-center" component={KiranPanCenter} />
+      <Route path="/smart-mall/clothing" component={Clothing} />
+      <Route path="/smart-mall/mobile-services" component={MobileServices} />
+      <Route path="/smart-mall/gaming" component={Gaming} />
       <Route component={NotFound} />
     </Switch>
   );
