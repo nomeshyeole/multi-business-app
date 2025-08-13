@@ -25,7 +25,7 @@ export default function Home() {
             </h1>
             <p className="text-xl md:text-2xl mb-8 leading-relaxed opacity-90">
               From premium recreational facilities to essential business services, 
-              Babuji Business Corporation delivers quality experiences across multiple sectors.
+              Multi Business Corporation delivers quality experiences across multiple sectors.
             </p>
             <Link href="/services">
               <Button 
@@ -48,10 +48,10 @@ export default function Home() {
       {/* Features Overview */}
       <section className="py-20 bg-white">
         <div className="container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-secondary mb-4">Why Choose Babuji Business Corporation?</h2>
+                    <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-secondary mb-4">Why Choose Multi Business Corporation?</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We deliver exceptional service quality across diverse business sectors with years of experience and customer satisfaction.
+              We are committed to providing exceptional quality service with a customer-first approach
             </p>
           </div>
           

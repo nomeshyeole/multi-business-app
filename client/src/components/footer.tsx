@@ -12,7 +12,7 @@ export default function Footer() {
               <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
                 <Building className="text-white" />
               </div>
-              <h3 className="text-xl font-bold">Babuji Business Corporation</h3>
+              <h3 className="text-xl font-bold">Multi Business Corporation</h3>
             </div>
             <p className="text-gray-300 mb-4">Excellence in business services across multiple sectors with customer satisfaction as our top priority.</p>
             <div className="flex space-x-4">
@@ -84,7 +84,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center text-gray-300">
                 <Mail className="mr-3 h-4 w-4" />
-                <span>info@babujibusiness.com</span>
+                <span>info@multibusiness.com</span>
               </div>
               <div className="flex items-center text-gray-300">
                 <Clock className="mr-3 h-4 w-4" />
@@ -98,7 +98,7 @@ export default function Footer() {
         <div className="border-t border-gray-600 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-300 mb-4 md:mb-0">
-              © 2024 Babuji Business Corporation. All rights reserved.
+              © 2024 Multi Business Corporation. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <a href="#" className="text-gray-300 hover:text-white transition-colors">Privacy Policy</a>

@@ -16,6 +16,8 @@ import Gaming from "@/pages/gaming";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import NotFound from "@/pages/not-found";
+import About from "@/pages/about";
+import Contact from "@/pages/contact";
 
 function Router() {
   return (
@@ -30,6 +32,8 @@ function Router() {
       <Route path="/smart-mall/clothing" component={Clothing} />
       <Route path="/smart-mall/mobile-services" component={MobileServices} />
       <Route path="/smart-mall/gaming" component={Gaming} />
+      <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>
   );

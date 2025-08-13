@@ -93,11 +93,6 @@ export default function Services() {
     <section className="py-20 bg-gray-50 min-h-screen">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">
-          <Link href="/">
-            <Button variant="ghost" className="mb-8 text-primary hover:text-blue-700 transition-colors">
-              <ArrowLeft className="mr-2 h-4 w-4" />Back to Home
-            </Button>
-          </Link>
           <h2 className="text-4xl font-bold text-secondary mb-4">Our Business Services</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Explore our comprehensive range of business services designed to meet diverse customer needs across multiple sectors.
