@@ -16,6 +16,15 @@ export default function Services() {
       slug: "sports-turf"
     },
     {
+      title: "Smart Mall Complex",
+      description: "Modern shopping complex featuring specialty stores for footwear, electronics, smart home devices, and cosmetics.",
+      imageUrl: "https://i.imgur.com/GEerEAQ.jpg", /* Modern smart mall complex with digital directories and green spaces */
+      imageAlt: "Modern smart mall complex with digital directory and shopping levels",
+      icon: <ShoppingCart />,
+      badge: "Specialty Stores",
+      slug: "smart-mall-complex"
+    },
+    {
       title: "Smart Mall",
       description: "Modern shopping complex with diverse retail outlets, entertainment zones, and smart technology integration for enhanced customer experience.",
       imageUrl: "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=300",

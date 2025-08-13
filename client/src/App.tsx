@@ -18,6 +18,15 @@ import Footer from "@/components/footer";
 import NotFound from "@/pages/not-found";
 import About from "@/pages/about";
 import Contact from "@/pages/contact";
+import FootwearStore from "@/pages/footwear-store";
+import ElectronicsStore from "@/pages/electronics-store";
+import SmartHomeDevices from "@/pages/smart-home-devices";
+import CosmeticsStore from "@/pages/cosmetics-store";
+import ToyStore from "@/pages/toy-store";
+import Bookstore from "@/pages/bookstore";
+import SportingGoodsStore from "@/pages/sporting-goods-store";
+import FurnitureStore from "@/pages/furniture-store";
+import SmartMallComplex from "@/pages/services/smart-mall-complex";
 
 function Router() {
   return (
@@ -29,11 +38,20 @@ function Router() {
       <Route path="/services/swimming-pool" component={SwimmingPool} />
       <Route path="/services/smart-mall" component={SmartMall} />
       <Route path="/services/kiran-pan-center" component={KiranPanCenter} />
+      <Route path="/services/smart-mall-complex" component={SmartMallComplex} />
       <Route path="/smart-mall/clothing" component={Clothing} />
       <Route path="/smart-mall/mobile-services" component={MobileServices} />
       <Route path="/smart-mall/gaming" component={Gaming} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/footwear-store" component={FootwearStore} />
+      <Route path="/electronics-store" component={ElectronicsStore} />
+      <Route path="/smart-home-devices" component={SmartHomeDevices} />
+      <Route path="/cosmetics-store" component={CosmeticsStore} />
+      <Route path="/toy-store" component={ToyStore} />
+      <Route path="/bookstore" component={Bookstore} />
+      <Route path="/sporting-goods-store" component={SportingGoodsStore} />
+      <Route path="/furniture-store" component={FurnitureStore} />
       <Route component={NotFound} />
     </Switch>
   );
