@@ -1,10 +1,19 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Users, MapPin, Star, Phone, Mail, CheckCircle } from "lucide-react";
+import { ArrowLeft, Clock, Users, MapPin, Star, Phone, Mail, CheckCircle, Calendar } from "lucide-react";
+import { BookingDialog } from "@/components/booking-dialog";
 
 export default function SportsTurf() {
+  const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<{
+    name: string;
+    duration: string;
+    price: string;
+  } | null>(null);
+  
   const services = [
     {
       name: "Football Turf Booking",
@@ -35,6 +44,20 @@ export default function SportsTurf() {
       features: ["Professional coach included", "Training equipment provided", "Video analysis", "Performance tracking"]
     }
   ];
+  
+  const handleServiceClick = (service: typeof services[0]) => {
+    // First set the selected service
+    setSelectedService({
+      name: service.name,
+      duration: service.duration,
+      price: service.price
+    });
+    
+    // Then open the booking dialog after a brief delay to ensure state has updated
+    setTimeout(() => {
+      setBookingDialogOpen(true);
+    }, 10);
+  };
 
   const facilities = [
     "FIFA standard artificial turf",
@@ -84,7 +107,16 @@ export default function SportsTurf() {
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
                   {services.map((service, index) => (
-                    <Card key={index} className="border border-gray-200">
+                    <Card 
+                      key={index} 
+                      className="border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
+                      onClick={(e) => {
+                        // Only trigger if not clicked on the button
+                        if ((e.target as Element).closest('button') === null) {
+                          handleServiceClick(service);
+                        }
+                      }}
+                    >
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start mb-3">
                           <h3 className="font-semibold text-lg text-secondary">{service.name}</h3>
@@ -108,6 +140,19 @@ export default function SportsTurf() {
                             </div>
                           ))}
                         </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mt-3 w-full"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation(); // Prevent card click event from firing
+                            handleServiceClick(service);
+                          }}
+                        >
+                          <Calendar className="mr-2 h-4 w-4" />
+                          Book Slot
+                        </Button>
                       </CardContent>
                     </Card>
                   ))}
@@ -179,6 +224,20 @@ export default function SportsTurf() {
                   <Mail className="mr-2 h-4 w-4" />
                   Email Inquiry
                 </Button>
+                <Button 
+                  className="w-full bg-green-600 hover:bg-green-700 text-white" 
+                  onClick={() => {
+                    setSelectedService({
+                      name: "Sports Turf Session",
+                      duration: "Varies",
+                      price: "Varies by type"
+                    });
+                    setBookingDialogOpen(true);
+                  }}
+                >
+                  <Calendar className="mr-2 h-4 w-4" />
+                  Book Online
+                </Button>
                 <p className="text-sm text-gray-600 text-center">
                   Advance booking required. 24-hour cancellation policy applies.
                 </p>
@@ -187,6 +246,25 @@ export default function SportsTurf() {
           </div>
         </div>
       </div>
+      
+      {/* Booking Dialog */}
+      {selectedService && (
+        <BookingDialog 
+          open={bookingDialogOpen} 
+          onOpenChange={(open) => {
+            setBookingDialogOpen(open);
+            // If dialog is closed, reset selected service after a short delay
+            if (!open) {
+              setTimeout(() => {
+                setSelectedService(null);
+              }, 300);
+            }
+          }}
+          serviceName={selectedService.name}
+          duration={selectedService.duration}
+          price={selectedService.price}
+        />
+      )}
     </section>
   );
 }
