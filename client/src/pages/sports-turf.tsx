@@ -1,51 +1,110 @@
+/**
+ * Sports Turf Facilities Page
+ * Provides booking functionality for sports facilities
+ */
+
 import { useState } from "react";
 import { Link } from "wouter";
+
+// UI Components
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Users, MapPin, Star, Phone, Mail, CheckCircle, Calendar } from "lucide-react";
+
+// Icons
+import { 
+  ArrowLeft, 
+  Clock, 
+  Users, 
+  MapPin, 
+  Star, 
+  Phone, 
+  Mail, 
+  CheckCircle, 
+  Calendar 
+} from "lucide-react";
+
+// Custom components
 import { BookingDialog } from "@/components/booking-dialog";
 
+// Service type definition
+type SportsTurfService = {
+  name: string;
+  duration: string;
+  price: string;
+  capacity: string;
+  features: string[];
+};
+
+// Selected service type
+type SelectedService = {
+  name: string;
+  duration: string;
+  price: string;
+} | null;
+
 export default function SportsTurf() {
+  // State management
   const [bookingDialogOpen, setBookingDialogOpen] = useState(false);
-  const [selectedService, setSelectedService] = useState<{
-    name: string;
-    duration: string;
-    price: string;
-  } | null>(null);
+  const [selectedService, setSelectedService] = useState<SelectedService>(null);
   
-  const services = [
+  // Service offerings data
+  const services: SportsTurfService[] = [
     {
       name: "Football Turf Booking",
       duration: "90 minutes",
       price: "₹2,500",
       capacity: "22 players",
-      features: ["Professional FIFA standard turf", "Floodlights for night play", "Changing rooms", "First aid facility"]
+      features: [
+        "Professional FIFA standard turf", 
+        "Floodlights for night play", 
+        "Changing rooms", 
+        "First aid facility"
+      ]
     },
     {
       name: "Cricket Turf Booking",
       duration: "3 hours",
       price: "₹3,000",
       capacity: "22 players",
-      features: ["Professional cricket pitch", "Bowling machine available", "Scoreboard", "Umpire on request"]
+      features: [
+        "Professional cricket pitch", 
+        "Bowling machine available", 
+        "Scoreboard", 
+        "Umpire on request"
+      ]
     },
     {
       name: "Multi-purpose Court",
       duration: "60 minutes",
       price: "₹1,500",
       capacity: "10-12 players",
-      features: ["Basketball court markings", "Volleyball net available", "Badminton court setup", "Equipment storage"]
+      features: [
+        "Basketball court markings", 
+        "Volleyball net available", 
+        "Badminton court setup", 
+        "Equipment storage"
+      ]
     },
     {
       name: "Training Sessions",
       duration: "2 hours",
       price: "₹4,500",
       capacity: "15 players",
-      features: ["Professional coach included", "Training equipment provided", "Video analysis", "Performance tracking"]
+      features: [
+        "Professional coach included", 
+        "Training equipment provided", 
+        "Video analysis", 
+        "Performance tracking"
+      ]
     }
   ];
   
-  const handleServiceClick = (service: typeof services[0]) => {
+  /**
+   * Handles service selection and opens the booking dialog
+   * @param service The selected service data
+   */
+  const handleServiceClick = (service: SportsTurfService) => {
     // First set the selected service
     setSelectedService({
       name: service.name,
@@ -53,12 +112,11 @@ export default function SportsTurf() {
       price: service.price
     });
     
-    // Then open the booking dialog after a brief delay to ensure state has updated
-    setTimeout(() => {
-      setBookingDialogOpen(true);
-    }, 10);
+    // Open the booking dialog
+    setBookingDialogOpen(true);
   };
 
+  // Facility amenities data
   const facilities = [
     "FIFA standard artificial turf",
     "Advanced drainage system",
@@ -253,11 +311,9 @@ export default function SportsTurf() {
           open={bookingDialogOpen} 
           onOpenChange={(open) => {
             setBookingDialogOpen(open);
-            // If dialog is closed, reset selected service after a short delay
+            // If dialog is closed, reset selected service
             if (!open) {
-              setTimeout(() => {
-                setSelectedService(null);
-              }, 300);
+              setSelectedService(null);
             }
           }}
           serviceName={selectedService.name}

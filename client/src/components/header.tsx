@@ -1,11 +1,22 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Building, Menu } from "lucide-react";
+import { Building, Menu, User, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/contexts/auth-context";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Header() {
   const [location] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { user, logout } = useAuth();
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -55,6 +66,45 @@ export default function Header() {
               Contact
             </Button>
           </Link>
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="rounded-full h-10 w-10 p-0">
+                  <Avatar>
+                    <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : user.username.charAt(0).toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuItem disabled className="opacity-70">
+                  Signed in as {user.name || user.username}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <div className="flex items-center w-full">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <Link href="/login">
+                <Button variant="outline">Log In</Button>
+              </Link>
+              <Link href="/register">
+                <Button>Register</Button>
+              </Link>
+            </div>
+          )}
         </div>
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4 w-full">
@@ -79,6 +129,31 @@ export default function Header() {
                   Contact
                 </Button>
               </Link>
+              {user ? (
+                <>
+                  <Link href="/profile">
+                    <Button variant="ghost" className="w-full justify-start text-secondary hover:text-primary">
+                      Profile
+                    </Button>
+                  </Link>
+                  <Button variant="ghost" className="w-full justify-start text-secondary hover:text-primary" onClick={logout}>
+                    Log Out
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button variant="ghost" className="w-full justify-start text-secondary hover:text-primary">
+                      Log In
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button variant="ghost" className="w-full justify-start text-secondary hover:text-primary">
+                      Register
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         )}
