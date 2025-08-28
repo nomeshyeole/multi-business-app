@@ -4,6 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/contexts/auth-context";
+import { CartProvider } from "@/contexts/cart-context";
 import Home from "@/pages/home";
 import Services from "@/pages/services";
 import SportsTurf from "@/pages/sports-turf";
@@ -27,9 +28,10 @@ import ToyStore from "@/pages/toy-store";
 import Bookstore from "@/pages/bookstore";
 import SportingGoodsStore from "@/pages/sporting-goods-store";
 import FurnitureStore from "@/pages/furniture-store";
-import SmartMallComplex from "@/pages/services/smart-mall-complex";
+
 import Login from "@/pages/login";
 import Register from "@/pages/register";
+import Profile from "@/pages/profile";
 import Businesses from "@/pages/businesses";
 import BusinessDetails from "@/pages/business-details";
 import WriteReview from "@/pages/write-review";
@@ -44,7 +46,6 @@ function Router() {
       <Route path="/services/swimming-pool" component={SwimmingPool} />
       <Route path="/services/smart-mall" component={SmartMall} />
       <Route path="/services/kiran-pan-center" component={KiranPanCenter} />
-      <Route path="/services/smart-mall-complex" component={SmartMallComplex} />
       <Route path="/smart-mall/clothing" component={Clothing} />
       <Route path="/smart-mall/mobile-services" component={MobileServices} />
       <Route path="/smart-mall/gaming" component={Gaming} />
@@ -60,6 +61,7 @@ function Router() {
       <Route path="/furniture-store" component={FurnitureStore} />
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
+      <Route path="/profile" component={Profile} />
       <Route path="/businesses" component={Businesses} />
       <Route path="/businesses/:id" component={BusinessDetails} />
       <Route path="/businesses/:id/review" component={WriteReview} />
@@ -72,14 +74,16 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <TooltipProvider>
-          <div className="min-h-screen bg-gray-50">
-            <Header />
-            <Router />
-            <Footer />
-          </div>
-          <Toaster />
-        </TooltipProvider>
+        <CartProvider>
+          <TooltipProvider>
+            <div className="min-h-screen bg-gray-50">
+              <Header />
+              <Router />
+              <Footer />
+            </div>
+            <Toaster />
+          </TooltipProvider>
+        </CartProvider>
       </AuthProvider>
     </QueryClientProvider>
   );

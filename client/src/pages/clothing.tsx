@@ -1,15 +1,202 @@
+import { useState } from "react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Star, Heart, ShoppingCart, Truck, RefreshCw } from "lucide-react";
+import { ArrowLeft, Star, Heart, ShoppingCart, Truck, RefreshCw, X, Trash2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useCart } from "@/contexts/cart-context";
+
+// Define types for our product items
+interface ProductItem {
+  id: string;
+  name: string;
+  price: string;
+  originalPrice: string;
+  image: string;
+  rating: number;
+  sizes: string[];
+  colors: string[];
+  inStock: boolean;
+}
+
+// Define type for product category
+interface ProductCategory {
+  category: string;
+  items: ProductItem[];
+}
+import { 
+  Dialog,
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription,
+  DialogFooter
+} from "@/components/ui/dialog";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+
+// Cart Badge Component to show item count
+function CartBadge() {
+  const { itemCount } = useCart();
+  
+  if (itemCount === 0) return null;
+  
+  return (
+    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+      {itemCount > 99 ? '99+' : itemCount}
+    </span>
+  );
+}
+
+// Shopping Cart Panel Component
+function ShoppingCartPanel() {
+  const { items, removeFromCart, updateQuantity, clearCart } = useCart();
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  
+  // Calculate total price (converting string prices to numbers for calculation)
+  const totalPrice = items.reduce((total, item) => {
+    const priceValue = parseFloat(item.price.replace(/[^\d.]/g, ''));
+    return total + (priceValue * item.quantity);
+  }, 0);
+  
+  const handleCheckout = () => {
+    setIsCheckingOut(true);
+    
+    // Simulate checkout process
+    setTimeout(() => {
+      clearCart();
+      setIsCheckingOut(false);
+    }, 2000);
+  };
+  
+  return (
+    <div className="flex flex-col h-full">
+      <SheetHeader className="mb-4">
+        <SheetTitle className="text-2xl flex items-center">
+          <ShoppingCart className="mr-2 h-5 w-5" />
+          Shopping Cart
+        </SheetTitle>
+      </SheetHeader>
+      
+      {items.length === 0 ? (
+        <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
+          <ShoppingCart className="h-16 w-16 text-gray-300 mb-2" />
+          <h3 className="text-lg font-medium mb-1">Your cart is empty</h3>
+          <p className="text-gray-500 mb-4">Start adding items to your cart</p>
+          <SheetClose asChild>
+            <Button variant="outline">Continue Shopping</Button>
+          </SheetClose>
+        </div>
+      ) : (
+        <>
+          <div className="flex-1 overflow-y-auto">
+            <div className="space-y-4">
+              {items.map(item => (
+                <div key={item.id} className="flex items-center gap-3 border-b border-gray-200 pb-3">
+                  <div className="h-16 w-16 rounded bg-gray-100 overflow-hidden flex-shrink-0">
+                    <img src={item.imageUrl} alt={item.title} className="h-full w-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-sm line-clamp-1">{item.title}</h4>
+                    <p className="text-gray-500 text-sm">{item.price}</p>
+                    <div className="flex items-center mt-1">
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        className="h-6 w-6 rounded-sm"
+                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      >
+                        -
+                      </Button>
+                      <span className="mx-2 text-sm w-6 text-center">{item.quantity}</span>
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        className="h-6 w-6 rounded-sm"
+                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      >
+                        +
+                      </Button>
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost" 
+                    size="icon"
+                    className="h-8 w-8 text-gray-400 hover:text-red-500"
+                    onClick={() => removeFromCart(item.id)}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-200 pt-4 mt-auto">
+            <div className="flex justify-between items-center mb-4">
+              <span className="font-medium">Total</span>
+              <span className="font-bold">₹{totalPrice.toFixed(2)}</span>
+            </div>
+            <Button 
+              className="w-full" 
+              disabled={isCheckingOut}
+              onClick={handleCheckout}
+            >
+              {isCheckingOut ? "Processing..." : "Checkout"}
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full mt-2" 
+              onClick={clearCart}
+              disabled={isCheckingOut}
+            >
+              Clear Cart
+            </Button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
 
 export default function Clothing() {
-  const products = [
+  const { addToCart } = useCart();
+  const { toast } = useToast();
+  const [selectedItem, setSelectedItem] = useState<ProductItem | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [cartDialogOpen, setCartDialogOpen] = useState(false);
+  
+  const handleAddToCart = () => {
+    if (!selectedItem) return;
+    
+    addToCart({
+      title: selectedItem.name,
+      price: selectedItem.price,
+      quantity: quantity,
+      imageUrl: selectedItem.image,
+    });
+    
+    toast({
+      title: "Added to cart",
+      description: `${quantity} × ${selectedItem.name} added to your cart`,
+    });
+    
+    setCartDialogOpen(false);
+    setQuantity(1);
+  };
+  const products: ProductCategory[] = [
     {
       category: "Men's Clothing",
       items: [
         { 
+          id: "m1",
           name: "Cotton Casual Shirt", 
           price: "₹1,299", 
           originalPrice: "₹1,799", 
@@ -20,6 +207,7 @@ export default function Clothing() {
           inStock: true 
         },
         { 
+          id: "m2",
           name: "Formal Blazer", 
           price: "₹3,499", 
           originalPrice: "₹4,999", 
@@ -30,6 +218,7 @@ export default function Clothing() {
           inStock: true 
         },
         { 
+          id: "m3",
           name: "Denim Jeans", 
           price: "₹2,199", 
           originalPrice: "₹2,999", 
@@ -45,6 +234,7 @@ export default function Clothing() {
       category: "Women's Clothing",
       items: [
         { 
+          id: "w1",
           name: "Floral Summer Dress", 
           price: "₹1,899", 
           originalPrice: "₹2,499", 
@@ -55,6 +245,7 @@ export default function Clothing() {
           inStock: true 
         },
         { 
+          id: "w2",
           name: "Office Blouse", 
           price: "₹1,599", 
           originalPrice: "₹2,199", 
@@ -65,6 +256,7 @@ export default function Clothing() {
           inStock: false 
         },
         { 
+          id: "w3",
           name: "Designer Saree", 
           price: "₹4,999", 
           originalPrice: "₹7,499", 
@@ -80,6 +272,7 @@ export default function Clothing() {
       category: "Kids Clothing",
       items: [
         { 
+          id: "k1",
           name: "Kids T-Shirt Set", 
           price: "₹899", 
           originalPrice: "₹1,299", 
@@ -90,6 +283,7 @@ export default function Clothing() {
           inStock: true 
         },
         { 
+          id: "k2",
           name: "School Uniform", 
           price: "₹1,299", 
           originalPrice: "₹1,799", 
@@ -117,11 +311,28 @@ export default function Clothing() {
       <div className="container mx-auto px-6">
         {/* Header */}
         <div className="mb-8">
-          <Link href="/services/smart-mall">
-            <Button variant="ghost" className="mb-4 text-primary hover:text-blue-700">
-              <ArrowLeft className="mr-2 h-4 w-4" />Back to Smart Mall
-            </Button>
-          </Link>
+          <div className="flex justify-between items-center mb-4">
+            <Link href="/services/smart-mall">
+              <Button variant="ghost" className="text-primary hover:text-blue-700">
+                <ArrowLeft className="mr-2 h-4 w-4" />Back to Smart Mall
+              </Button>
+            </Link>
+            
+            <div className="flex items-center gap-2">
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="outline" className="relative">
+                    <ShoppingCart className="h-4 w-4 mr-1" />
+                    Cart
+                    <CartBadge />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent className="w-[400px] sm:max-w-lg">
+                  <ShoppingCartPanel />
+                </SheetContent>
+              </Sheet>
+            </div>
+          </div>
           
           <div className="relative h-64 rounded-xl overflow-hidden mb-6">
             <img 
@@ -194,6 +405,13 @@ export default function Clothing() {
                           <Button 
                             className="w-full bg-primary hover:bg-blue-700" 
                             disabled={!item.inStock}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (item.inStock) {
+                                setSelectedItem(item);
+                                setCartDialogOpen(true);
+                              }
+                            }}
                           >
                             <ShoppingCart className="mr-2 h-4 w-4" />
                             {item.inStock ? 'Add to Cart' : 'Out of Stock'}
@@ -264,6 +482,74 @@ export default function Clothing() {
           </div>
         </div>
       </div>
+      
+      {/* Add to Cart Dialog */}
+      <Dialog open={cartDialogOpen && selectedItem !== null} onOpenChange={setCartDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add to Cart</DialogTitle>
+            {selectedItem && (
+              <DialogDescription>
+                {selectedItem.name} - {selectedItem.price}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+          
+          <div className="flex items-center space-x-4 py-4">
+            <div className="h-24 w-24 rounded bg-gray-100 overflow-hidden flex-shrink-0">
+              {selectedItem && (
+                <img 
+                  src={selectedItem.image} 
+                  alt={selectedItem?.name} 
+                  className="h-full w-full object-cover" 
+                />
+              )}
+            </div>
+            
+            <div>
+              {selectedItem && (
+                <>
+                  <p className="font-medium">{selectedItem.name}</p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Available sizes: {selectedItem.sizes.join(', ')}
+                  </p>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Available colors: {selectedItem.colors.join(', ')}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+          
+          <div className="flex items-center justify-center gap-4 py-4">
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={() => setQuantity(q => Math.max(1, q - 1))}
+            >
+              -
+            </Button>
+            <span className="font-medium text-xl w-8 text-center">{quantity}</span>
+            <Button 
+              variant="outline" 
+              size="icon"
+              onClick={() => setQuantity(q => q + 1)}
+            >
+              +
+            </Button>
+          </div>
+          
+          <DialogFooter className="flex flex-row justify-between sm:justify-between">
+            <Button variant="outline" onClick={() => setCartDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleAddToCart}>
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Add to Cart
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 }
